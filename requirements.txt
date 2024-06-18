@@ -1,0 +1,8 @@
+beautifulsoup4==4.12.3
+functions-framework==3.*
+pytz==2024.1
+mysql-connector-python==8.4.0
+PyMySQL==1.1.1
+SQLAlchemy==2.0.30
+requests==2.32.2
+pandas==2.2.1

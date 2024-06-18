@@ -1,0 +1,78 @@
+site_name: Gans Data Engineering
+site_author: Sören Zapp
+site_description: Documentation of the Gans Data Engineering project
+copyright: Copyright &copy; 2024 Sören Zapp
+repo_name: szapp/GansDataEngineering
+repo_url: https://github.com/szapp/GansDataEngineering
+site_dir: build
+plugins:
+  - mkdocstrings:
+      handlers:
+        python:
+          import:
+            - https://docs.python.org/3/objects.inv
+            - https://pandas.pydata.org/docs/objects.inv
+            - https://beautiful-soup-4.readthedocs.io/en/latest/objects.inv
+          paths: [../]
+          options:
+            docstring_style: numpy
+            docstring_section_style: list
+            show_source: false
+            members_order: source
+            merge_init_into_class: true
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+      use_pygments: true
+  - pymdownx.superfences
+theme:
+  name: material
+  plugins:
+    - typeset
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - content.tooltips
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+  icon:
+    logo: octicons/cache-16
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme)"
+      primary: grey
+      accent: indigo
+      toggle:
+        icon: material/brightness-6
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: grey
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: grey
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to system preference
+
+nav:
+  - Home: 'index.md'
+  - install.md
+  - usage.md
+  - database.md
+  - API reference:
+    - Static information:
+      - cities.md
+      - airports.md
+    - Dynamic information:
+      - weather.md
+      - flights.md
