@@ -1,0 +1,35 @@
+name: build
+
+on:
+  push:
+    paths:
+      - 'pipeline/**'
+      - '.github/workflows/build.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --U pip
+          python -m pip install -r requirements.txt
+          python -m pip install black flake8 isort build
+
+      - name: Lint code
+        run: |
+          flake8 pipeline
+          isort --check --diff --profile black pipeline
+          black --check --config pyproject.toml pipeline
+
+      - name: Build package
+        run: python -m build
