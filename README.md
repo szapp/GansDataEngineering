@@ -1,5 +1,6 @@
 # Gans Data Engineering
 
+[![build](https://github.com/szapp/GansDataEngineering/actions/workflows/build.yml/badge.svg)](https://github.com/szapp/GansDataEngineering/actions/workflows/build.yml)
 [![Medium.com](https://img.shields.io/badge/medium-published-007ec6?logo=medium)](https://medium.com/p/e9d8618641ab)
 [![GitHub Pages](https://img.shields.io/github/deployments/szapp/GansDataEngineering/github-pages?logo=materialformkdocs&logoColor=white&label=pages
 )](https://szapp.github.io/GansDataEngineering/)
