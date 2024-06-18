@@ -1,5 +1,9 @@
 # Gans Data Engineering
 
+[![Medium.com](https://img.shields.io/badge/medium-published-007ec6?logo=medium)](https://medium.com/p/e9d8618641ab)
+[![GitHub Pages](https://img.shields.io/github/deployments/szapp/GansDataEngineering/github-pages?logo=materialformkdocs&logoColor=white&label=pages
+)](https://szapp.github.io/GansDataEngineering/)
+
 Data engineering project with web scraping and API calls using MySQL, Pandas, and Google Cloud.
 
 ## Project
