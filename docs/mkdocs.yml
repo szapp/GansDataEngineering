@@ -1,10 +1,11 @@
 site_name: Gans Data Engineering
 site_author: Sören Zapp
 site_description: Documentation of the Gans Data Engineering project
-copyright: Copyright &copy; 2024 Sören Zapp
+site_url: https://szapp.github.io/GansDataEngineering/
+site_dir: build
 repo_name: szapp/GansDataEngineering
 repo_url: https://github.com/szapp/GansDataEngineering
-site_dir: build
+copyright: Copyright &copy; 2024 Sören Zapp
 plugins:
   - mkdocstrings:
       handlers:
