@@ -5,11 +5,12 @@ for the next full day
 
 __all__ = ["fetch"]
 
+import warnings
 from datetime import datetime, timedelta
-from pytz import timezone as tz
+
 import pandas as pd
 import requests
-import warnings
+from pytz import timezone as tz
 
 
 def fetch(icaos, api_key, timezone="Europe/Berlin"):
@@ -86,9 +87,7 @@ def fetch(icaos, api_key, timezone="Europe/Berlin"):
             url_icao = f"{url_base}/{icao}/{from_time}/{to_time}"
             response = requests.get(url_icao, headers=headers, params=params)
             if not response.ok or response.status_code != 200:
-                warnings.warn(
-                    f"Failed to fetch flights for '{icao}': {response.text}"
-                )
+                warnings.warn(f"Failed to fetch flights for '{icao}': {response.text}")
                 continue
             data = pd.json_normalize(response.json()["arrivals"])[columns]
             data.insert(2, "icao", icao)

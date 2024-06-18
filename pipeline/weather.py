@@ -5,9 +5,10 @@ worldwide
 
 __all__ = ["forecast"]
 
+import warnings
+
 import pandas as pd
 import requests
-import warnings
 
 
 def forecast(latitudes, longitudes, api_key):
@@ -59,9 +60,7 @@ def forecast(latitudes, longitudes, api_key):
         params = dict(lat=lat, lon=lon, appid=api_key, units="metric")
         response = requests.get(url, params)
         if not response.ok or response.status_code != 200:
-            warnings.warn(
-                f"Failed to get data for {lat:.2f}/{lon:.2f}: {response.text}"
-            )
+            warnings.warn(f"Failed to get data for {lat:.2f}/{lon:.2f}: {response.text}")
             continue
         retrieved = response.headers["Date"]
 

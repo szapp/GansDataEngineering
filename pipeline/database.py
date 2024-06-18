@@ -27,10 +27,7 @@ __all__ = ["Database"]
 import mysql.connector
 import pandas as pd
 
-from . import airports
-from . import cities
-from . import flights
-from . import weather
+from . import airports, cities, flights, weather
 
 
 class Database:
@@ -44,7 +41,7 @@ class Database:
         rapid_api_key,
         reset=False,
         timezone="Europe/Berlin",
-        **connection
+        **connection,
     ):
         """Initialize the database with the necessary credentials
 
@@ -81,14 +78,10 @@ class Database:
         self.rapid_api_key = rapid_api_key
         self.timezone = timezone
         self.connection = connection
-        self.connection_string = (
-            "{protocol}://{user}:{password}@{host}:{port}/{database}".format(
-                **connection, protocol="mysql+pymysql"
-            )
+        self.connection_string = "{protocol}://{user}:{password}@{host}:{port}/{database}".format(
+            **connection, protocol="mysql+pymysql"
         )
-        self.update_parameters = dict(
-            con=self.connection_string, if_exists="append", index=False
-        )
+        self.update_parameters = dict(con=self.connection_string, if_exists="append", index=False)
         self.setup(reset)
 
     def setup(self, reset=False):
@@ -121,7 +114,7 @@ class Database:
             # Read query from file
             with open("create_database.sql") as f:
                 content = f.read()
-                content = content.replace('gans_cities', db_name)
+                content = content.replace("gans_cities", db_name)
                 queries = f.read().split(";")
 
             # Execute the queries to create the database and tables
@@ -143,9 +136,7 @@ class Database:
         cities.scrape : Web scraping city data
         """
         # Remove existing cities from query
-        existing_cities = pd.read_sql("cities", con=self.connection_string)[
-            "city_name"
-        ].unique()
+        existing_cities = pd.read_sql("cities", con=self.connection_string)["city_name"].unique()
         city_list = list(set(city_list) - set(existing_cities))
         if len(city_list) == 0:
             return
@@ -154,16 +145,12 @@ class Database:
         retrieved = cities.scrape(city_list)
 
         # Add the new cities to the cities table in the database
-        retrieved[["city_name", "country_code"]].to_sql(
-            "cities", **self.update_parameters
-        )
+        retrieved[["city_name", "country_code"]].to_sql("cities", **self.update_parameters)
         cities_db = pd.read_sql("cities", con=self.connection_string)
 
         # Merge the new population and geo data
         retr_full = cities_db.merge(retrieved)
-        population = retr_full[
-            ["city_id", "population", "timestamp_population"]
-        ]
+        population = retr_full[["city_id", "population", "timestamp_population"]]
         geo = retr_full[["city_id", "latitude", "longitude", "timezone"]]
 
         # Add the new data to the database
@@ -185,20 +172,14 @@ class Database:
         airports_db = pd.read_sql("airports", con=self.connection_string)
 
         # Get the airports in proximity to the cities
-        retrieved = airports.find(
-            geo_db.latitude, geo_db.longitude, self.rapid_api_key
-        )
+        retrieved = airports.find(geo_db.latitude, geo_db.longitude, self.rapid_api_key)
 
         # Merge the airport data with the city data
-        retrieved_full = cities_id.merge(
-            retrieved, left_index=True, right_on="id"
-        )
+        retrieved_full = cities_id.merge(retrieved, left_index=True, right_on="id")
         retrieved_full = retrieved_full.drop(columns="id")
 
         # Exclude existing airports
-        airports_new = retrieved_full[
-            ~retrieved_full.icao.isin(airports_db.icao)
-        ]
+        airports_new = retrieved_full[~retrieved_full.icao.isin(airports_db.icao)]
 
         # Add the new airports to the database
         airports_new.to_sql("airports", **self.update_parameters)
@@ -222,9 +203,9 @@ class Database:
 
         # Get the latest population data from the database to compare
         population_db = pd.read_sql("population", con=self.connection_string)
-        population_db = population_db.sort_values(
-            "timestamp_population"
-        ).drop_duplicates(subset="city_id", keep="last")
+        population_db = population_db.sort_values("timestamp_population").drop_duplicates(
+            subset="city_id", keep="last"
+        )
 
         # Merge with latest values from the database to remove
         # duplicate rows before adding new rows to the database table
@@ -250,14 +231,10 @@ class Database:
         cities_id = geo_db[["city_id"]]
 
         # Get the weather data
-        retrieved = weather.forecast(
-            geo_db.latitude, geo_db.longitude, self.weather_api_key
-        )
+        retrieved = weather.forecast(geo_db.latitude, geo_db.longitude, self.weather_api_key)
 
         # Merge the weather data with the city data
-        retrieved_full = cities_id.merge(
-            retrieved, left_index=True, right_on="id"
-        )
+        retrieved_full = cities_id.merge(retrieved, left_index=True, right_on="id")
         retrieved_full = retrieved_full.drop(columns="id")
 
         # Add the weather data to the database

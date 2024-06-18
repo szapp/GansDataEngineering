@@ -4,9 +4,10 @@ Make API calls to RapidAPI to find the airports of cities worldwide
 
 __all__ = ["find"]
 
+import warnings
+
 import pandas as pd
 import requests
-import warnings
 
 
 def find(latitudes, longitudes, api_key):
@@ -63,9 +64,7 @@ def find(latitudes, longitudes, api_key):
         )
         response = requests.get(url, headers=headers, params=params)
         if not response.ok or response.status_code != 200:
-            warnings.warn(
-                f"Failed to get data for {lat}/{lon}: {response.text}"
-            )
+            warnings.warn(f"Failed to get data for {lat}/{lon}: {response.text}")
             continue
 
         airport_data = pd.json_normalize(response.json()["items"])

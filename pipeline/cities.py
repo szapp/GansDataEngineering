@@ -14,11 +14,12 @@ __all__ = [
     "get_soup",
 ]
 
-from bs4 import BeautifulSoup
-import pandas as pd
-import requests
 import re
 import warnings
+
+import pandas as pd
+import requests
+from bs4 import BeautifulSoup
 
 
 def scrape(cities):
