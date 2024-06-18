@@ -23,7 +23,7 @@ To accomplish these tasks, I have compiled the following resources for this proj
 
 1. A Python package for implementing the pipeline in this [repository](https://github.com/szapp/GansDataEngineering)
 
-2. A technical [documentation](https://szapp.github.com/GansDataEngineering) describing the Python package and its setup locally and in the cloud
+2. A technical [documentation](https://szapp.github.io/GansDataEngineering/) describing the Python package and its setup locally and in the cloud
 
 3. An article on &nbsp;[![Medium.com](docs/docs/img/medium.svg)](https://medium.com/p/e9d8618641ab)&nbsp; about establishing a Data Engineering project on the Google Cloud Platform
 
@@ -65,6 +65,7 @@ To accomplish these tasks, I have compiled the following resources for this proj
 - RapidAPI
 - Google Cloud Services
 - MkDocs
+- GitHub Pages
 - Medium.com
 
 ## Repository Structure
