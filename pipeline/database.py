@@ -9,8 +9,7 @@ functions into a class to navigate the database and update it.
 
 Examples
 --------
-Establish a connection
-
+Establish a connection and create the SQL database if it does not exist
 >>> from pipeline import Database
 >>> db = Database(**config)
 
@@ -20,10 +19,13 @@ Add cities (if not already present) and their airports
 Fetch dynamic data and update it in the database
 >>> db.fetch_weather()
 >>> db.fetch_flights()
+
+For more information, see the **usage** documentation.
 """
 
 __all__ = ["Database"]
 
+from importlib import resources as pkg_resources
 import mysql.connector
 import pandas as pd
 
@@ -44,6 +46,8 @@ class Database:
         **connection,
     ):
         """Initialize the database with the necessary credentials
+
+        The SQL database will be created if it does not exist yet.
 
         Parameters
         ----------
@@ -112,10 +116,10 @@ class Database:
         with mysql.connector.connect(**connection) as cnx:
 
             # Read query from file
-            with open("create_database.sql") as f:
+            with pkg_resources.open_text(__package__, "create_database.sql") as f:
                 content = f.read()
                 content = content.replace("gans_cities", db_name)
-                queries = f.read().split(";")
+                queries = content.split(";")
 
             # Execute the queries to create the database and tables
             with cnx.cursor() as cursor:
