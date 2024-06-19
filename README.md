@@ -73,6 +73,16 @@ To accomplish these tasks, I have compiled the following resources for this proj
 - GitHub Pages
 - Medium.com
 
+## Database Schema
+
+Running the Python pipeline the first time fully creates the following SQL schema automatically.
+
+<div align="center">
+  <picture>
+    <img alt="Schema" width="600" src="docs/docs/img/schema.svg">
+  </picture>
+</div>
+
 ## Repository Structure
 
 ```

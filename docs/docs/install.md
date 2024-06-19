@@ -11,3 +11,7 @@ Alternatively, install the package for outside of the directory with
 ```bash
 pip install -e .
 ```
+
+No further setup is necessary.
+The SQL database with all tables will be created by the pipeline given that an MySQL instance exists.
+Find the created database schema in [usage](usage.md).

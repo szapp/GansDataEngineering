@@ -10,18 +10,27 @@ The [Database](database.md) class serves as an interface for all operations.
 from pipeline import Database
 db = Database(**config)
 ```
-Here, the connection details are stored in `config`, a Python dictionary with keys as outlined in the [documentation of the class](database.md).
+Here, the connection details are stored in `config`, a Python dictionary with keys as outlined in the [documentation of the class](database.md).  
+The SQL database will be fully **created automatically** with all its tables **if it does not exist**.
+It is thus safe to re-create the Database object without data loss.
 
-**Add cities (if not already present) and their airports**
+<div align="center">
+  <img alt="Schema" src="../img/schema.svg">
+</div>
+
+**Add cities and their airports**
 ```python
 db.add_cities(['Berlin', 'Hamburg', 'Munich'])
 ```
+Only new cities will be added.
+Airports in the vicinity will be added as well.
 
 **Fetch dynamic data and update it in the database**
 ```python
 db.fetch_weather()
 db.fetch_flights()
 ```
+These functions are to be run continuously to keep the database up-to-date.
 
 ## Local
 
@@ -61,8 +70,10 @@ db = Database(
 
 Running the pipeline on the Google Cloud Platform (GCP) requires to upload the Python package (directory `pipeline`), and the files `main.py` and `requirements.txt` to a Cloud Function.
 The file `main.py` contains two possible entry points for the Cloud Function:
-- update_weather
-- update_flights
+
+- `update_weather`
+- `update_flights`
+
 The functions are equipped with the `functions_framework` to allow cloud execution.
 
 The procedure to keep the credentials secure follows as for the local usage described above.
