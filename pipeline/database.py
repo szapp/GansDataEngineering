@@ -26,6 +26,7 @@ For more information, see the **usage** documentation.
 __all__ = ["Database"]
 
 from importlib import resources as pkg_resources
+
 import mysql.connector
 import pandas as pd
 
